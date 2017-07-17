@@ -1,0 +1,32 @@
+body{
+	background-color: #d4e6f1  ;
+}
+html {
+  background-image: url()
+}
+
+/*Adds borders for tabs*/
+
+.nav-tabs{
+	margin-bottom: 0;
+}
+
+body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+.portfolio-item {
+    margin-bottom: 25px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+.jumbotron{
+	background-color:#d4e6f1
+}
+
+.container{
+	background-color:white
+}

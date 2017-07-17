@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UFT-8">
+ <meta http-equiv="X-UA-Compatible" content="IE-edge">
+ <meta name="viewport" content="width = device-width, initial-scale=1">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+ <link rel="stylesheet" type="text/css" href="mystyle.css">
+ <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+ <div class="page-header">
+	<h1 class="display-3"> Automated Indexing of Bioinformatics Tools</h1>
+ </div>
+</div>
+<div class="container">
+
+
+<div class="row">
+	 
+	 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+	 	<h2>Overview</h2>
+	 	<p class="lead">The overarching goal of the project is to build a comprehensive index of softwares, tools, and databases published in several major journals in the field of bioinformatics and computational biology. This data will become an integral part of Datasets2Tools</p>
+        <p class="lead">The results of analysis -recommendation system and data visualization-will be also featured on a small website, BioToolBay which is currently being developed.</p>
+
+
+<p>
+<img class="img-fluid" src="pictures/bio.png" alt="BTB" width="400" height="400">
+</p>
+
+ 
+	</div>
+
+
+	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+	 	<h2>Methods</h2>
+        <p> <h5>Step 1: Web Scraping </h5></p>
+        <p> Use Scrapy-Splash framework to extract chosen informations from research journals.
+        <p>
+            <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">BMC Spider</a>
+            <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Oxford Spider</a>
+        <p> <h5> Step 2: Data cleaning and normalization </h5></p>
+        <p>
+            <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">BMC Cleaner</a>
+            <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Oxford Cleaner</a>
+
+        <p> <h5>Step 3: Tool's Name Extration- Regex</h5></p>
+            <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Tool Extraction</a>
+        <p> <h5> Step 4: Active links to homepages</h5> </p>
+        <p>
+             <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Link Checker</a>
+
+        <p><h5> Step 5: Unique Names, NLP- similarity, t-SNE</h5></p>
+        <p>
+            <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">NLP</a>
+
+
+        <p> <h5>Step 6: Build a Database</h5></p>
+            <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Create database</a>
+            <a href="" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Dataframe2SQL</a>
+        <p> </p>
+
+	</div>
+</div>
+<!-- /.row -->
+
+  <h2>Short Summary</h2>
+  <table class="table table-hover">
+    <thead>
+  <th>Journal</th>
+    <th>Extracted Articles</th> 
+    <th>'Tool's Related Articles'</th>
+    <th>Unique Tools with Active Link</th>
+  </tr>
+    </thead>
+    <tbody>
+ <tr>
+    <td>BMC Bioinformatics</td>
+    <td>8,358</td> 
+    <td>2,099</td>
+    <td>1,408</td>
+  </tr>
+  <tr>
+    <td>NAR Oxford</td>
+    <td>20,954</td> 
+    <td>3,627</td>
+    <td>2,029</td>
+
+  </tr>
+    <tr>
+    <td>Database Oxford</td>
+    <td>742</td> 
+    <td>391</td>
+    <td>333</td>
+  </tr>
+
+  <tr>
+    <td>Bioinformatics Oxford</td>
+    <td>10,681</td> 
+    <td>3,627</td>
+    <td>2,482</td>
+  </tr>
+
+    <tr>
+    <td>Total</td>
+    <td>40,735</td> 
+    <td>9,744</td>
+    <td>5,915*</td>
+  </tr>
+    </tbody>
+  </table>
+  <p>* unique tools across all the journals</p>
+<!-- Results Row -->
+
+
+<div class=row>
+
+ <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+   <h4>Tools's Similarity </h4>
+   <p>Requires Firefox. Color scale represents relative amount of citations. Size of the balls corresponds to relative number of views.</p>
+    <script>
+Plotly.d3.csv('ALL.csv', function(err, rows){
+      function unpack(rows, key) {
+          return rows.map(function(row) 
+          { return row[key]; });
+      }
+var trace1 = {
+  x:unpack(rows, 'x'),  y: unpack(rows, 'y'), z: unpack(rows, 'z'),
+  mode: 'markers',
+   text: unpack(rows, 'name_tool'),
+  marker: {
+  	symbol:'circle',
+    cmin:4,
+    cmax:34,
+  	colorscale:'Portland',
+    color : unpack(rows, 'citations_per_year'),
+    showscale: true,
+    size: unpack(rows, 'relative_views'),
+    opacity: 0.8
+  },
+  type: 'scatter3d'
+};
+var axisTemplate = {
+  range: [-4, 4],
+  autorange: false,
+  showgrid: false,
+  zeroline: false,
+  linecolor: 'white',
+  showticklabels: false,
+  ticks: ''
+};
+
+
+var data = [trace1];
+var layout = {margin: {
+    l: 0,
+    r: 0,
+    b: 0,
+    t: 0
+  },
+ xaxis: axisTemplate,
+ yaxis: axisTemplate
+};
+Plotly.newPlot('myDiv', data, layout);
+});
+        </script>     
+      
+        <!-- Plotly chart will be drawn inside this DIV -->
+        <div id="myDiv" style="width:250;height:250"></div>
+
+</div>
+</div>
+<div class="jumbotron">
+        <div class="col-lg-12">
+                <h3 class="page-header"><center>RESULTS</center></h3>
+        </div>
+
+
+
+
+       
+  
+
+<!-- Related Projects Row -->
+        <div class="row">
+
+ 
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-fluid" src="pictures/bioinf.gif" alt="bioinformatics" width="400" height="300">
+                </a>
+
+                <a href='http://nbviewer.jupyter.org/github/mslovett21/Lab-project/blob/master/jupyter_notebooks/Bio_ready.ipynb' class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Summary</a>
+            </div>
+
+        
+
+
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-fluid" src="pictures/nar1.gif" alt="NAR" width="400" height="300">
+                </a>
+
+                <a href="http://nbviewer.jupyter.org/github/mslovett21/Lab-project/blob/master/jupyter_notebooks/NAR_ready.ipynb" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Summary</a>
+            </div>
+
+
+            <div class="col-sm-3 col-xs-3">
+                <a href="#">
+                   <img class="img-fluid" src="pictures/database.jpeg" alt="Database" width="400" height="300">
+                </a>
+                <a href="http://nbviewer.jupyter.org/github/mslovett21/Lab-project/blob/master/jupyter_notebooks/Database_ready.ipynb" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Summary</a>
+
+            </div>
+
+
+            <div class="col-sm-3 col-xs-6">
+
+                <a href="http://nbviewer.jupyter.org/github/mslovett21/jupyter-notebook/blob/master/BMC_ready.ipynb">
+                    <img class="img-fluid" src="pictures/bmc2.jpg" alt="BMC" width="400" height="300">
+                </a>
+                <a href="http://nbviewer.jupyter.org/github/mslovett21/Lab-project/blob/master/jupyter_notebooks/BMC_ready2.ipynb" class="btn btn-primary btn-xs active" role="button" aria-pressed="true">Summary</a>
+
+            </div>
+
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+<!--/.jumbotron -->
+
+
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

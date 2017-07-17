@@ -1,4 +1,4 @@
 # BioToolBay_data_collection
-How was the data for BioToolBat collect and process?
+How was the data for BioToolBay collect and process?
 From Web Scraping to Building a Database.
-See:
+For details check (use Firefox):
